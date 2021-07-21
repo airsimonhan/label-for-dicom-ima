@@ -6,4 +6,4 @@
 2. 保存的文件为npy和json，前者包含原始Dicom文件中的pixel_array，后者包含标注信息
 3. 可以读取并显示当前dicom文件中的全部信息
 
-![demo](imgs\demo.png)
+![demo](./imgs/demo.png)
