@@ -29,4 +29,4 @@ The packaged `*exe` is a Chinese version, if you need an English version, please
 1. 右侧第一栏为当前文件夹内的所有dcm文件（已经重新根据patientID, series number, instance number, modality等信息进行重命名）
 2. 右侧第二栏为当前dcm文件中的数据信息，便于对当前数据进行信息的阅读
 3. 右侧下方为标注的信息
-![demo](./imgs/demo.png)
+![demo](./imgs/demo.gif)
