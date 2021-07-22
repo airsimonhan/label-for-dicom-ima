@@ -22,7 +22,7 @@ The packaged `*exe` is a Chinese version, if you need an English version, please
 
    this app can also regarded as a dicom/ima reader for all the ISO dicom information
 
-[ ] TODO 上一张和下一张的快捷键分别是 `A` 和 `D` ，但是软件界面显示是 `N` 和 `P` ，需要修改一下
+- [ ] TODO 上一张和下一张的快捷键分别是 `A` 和 `D` ，但是软件界面显示是 `N` 和 `P` ，需要修改一下
 
 ## 界面展示
 由于数据未脱敏，软件相关信息打码了
