@@ -1,4 +1,4 @@
-# label_with_dicom
+# A label tool for dicom and ima files
 
 这个代码是在[labelme](https://github.com/wkentaro/labelme)的基础上进行修改，用来标注医学图像数据
 
