@@ -1,17 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-@Time          : 2021/4/27 16:43
-@Author        : BarneyQ
-@File          : utils.py
-@Software      : PyCharm
-@Description   : 增加处理dicom文件的处理函数
-@Modification  :
-    @Author    :
-    @Time      :
-    @Detail    :
-
-"""
-
+# encoding=utf-8
 from pydicom import dcmread
 import pydicom
 import numpy as np
@@ -20,6 +7,7 @@ import os
 import re
 import shutil
 import cv2
+import SimpleITK as sitk
 
 
 class DicomProcess(object):
@@ -56,8 +44,11 @@ class DicomProcess(object):
             shape = pixel_array.shape
             dcm_array = (pixel_array * slope + intercept)
         except:
-            print('No pixel array')
-            # todo 把参数传到前端
+            print('pydicom cannot import pixel_array')
+            dc_tmp = sitk.ReadImage(dcm)
+            dcm_array = sitk.GetArrayFromImage(dc_tmp)
+            dcm_array = np.squeeze(dcm_array)
+            shape = dcm_array.shape
 
         # 读取 病人ID 和 instance number
         if ('0x0010', '0x0020') in key_list:
@@ -167,5 +158,6 @@ class DicomProcess(object):
         file_path = file_path.replace(' ', '_')
         file_path = file_path.replace(':', '_')
         file_path = file_path.replace('-', '_')
+        file_path = file_path.replace('*', 'anonymous')
         cv2.imwrite(file_path, imageData)
         return file_path

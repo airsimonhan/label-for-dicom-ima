@@ -1492,7 +1492,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         ########################################
         info = self.file2infor.get(filename)
-        self.loadInfo(info)
+
+        # todo 这里的逻辑是为了避免jpg等格式打不开
+        if info:
+            self.loadInfo(info)
+        else:
+            pass
 
         if not QtCore.QFile.exists(filename):
             self.errorMessage(
@@ -1772,6 +1777,8 @@ class MainWindow(QtWidgets.QMainWindow):
             file_name_split = filename.split('.')
             self.type = file_name_split[-1]
             if self.type not in ['dcm', 'DCM', 'ima', 'IMA']:
+                self.dir2dir = {}
+                self.file2infor = {}
                 self.loadFile(filename)
             if self.type in ['dcm', 'DCM']:
                 dir, file_path, dc = DicomProcess.dcm2png(filename)
