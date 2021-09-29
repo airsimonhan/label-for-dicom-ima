@@ -22,11 +22,11 @@ The packaged `*exe` is a Chinese version, if you need an English version, please
 
    this app can also regarded as a dicom/ima reader for all the ISO dicom information
 
-[ ] TODO 上一张和下一张的快捷键分别是 `A` 和 `D` ，但是软件界面显示是 `N` 和 `P` ，需要修改一下
+- [ ] TODO 上一张和下一张的快捷键分别是 `A` 和 `D` ，但是软件界面显示是 `N` 和 `P` ，需要修改一下
 
 ## 界面展示
 由于数据未脱敏，软件相关信息打码了
 1. 右侧第一栏为当前文件夹内的所有dcm文件（已经重新根据patientID, series number, instance number, modality等信息进行重命名）
 2. 右侧第二栏为当前dcm文件中的数据信息，便于对当前数据进行信息的阅读
 3. 右侧下方为标注的信息
-![demo](./imgs/demo.png)
+![demo](./imgs/demo.gif)
