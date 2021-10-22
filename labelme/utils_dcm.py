@@ -44,7 +44,7 @@ class DicomProcess(object):
             shape = pixel_array.shape
             dcm_array = (pixel_array * slope + intercept)
         except:
-            print('pydicom cannot import pixel_array')
+            print('pydicom cannot import pixel_array, using simpleitk instead')
             dc_tmp = sitk.ReadImage(dcm)
             dcm_array = sitk.GetArrayFromImage(dc_tmp)
             dcm_array = np.squeeze(dcm_array)
@@ -100,7 +100,15 @@ class DicomProcess(object):
     @staticmethod
     def dcm2npy(dcm, path):
         dc = dcmread(dcm)  # 读取dcm文件
-        np.save(path, dc.pixel_array)
+        # 读取pixel array
+        try:
+            dcm_array = dc.pixel_array
+        except:
+            print('pydicom cannot import pixel_array, using simpleitk instead')
+            dc_tmp = sitk.ReadImage(dcm)
+            dcm_array = sitk.GetArrayFromImage(dc_tmp)
+            dcm_array = np.squeeze(dcm_array)
+        np.save(path, dcm_array)
 
     @staticmethod
     def check_dir(dir):
@@ -154,10 +162,14 @@ class DicomProcess(object):
     @ staticmethod
     def save_img(shape, modality, dcm_array, path, patient_id, series_description, b_value, instance):
         imageData = DicomProcess.normalization(shape, dcm_array)
-        file_path = path + str(patient_id) + '_' + modality + '_' + series_description + '_' + b_value + '_' + str(instance).zfill(4) + '.png'
-        file_path = file_path.replace(' ', '_')
-        file_path = file_path.replace(':', '_')
-        file_path = file_path.replace('-', '_')
-        file_path = file_path.replace('*', 'anonymous')
-        cv2.imwrite(file_path, imageData)
+        file_name = str(patient_id) + '_' + modality + '_' + series_description + '_' + b_value + '_' + str(instance).zfill(4) + '.png'
+        file_name = file_name.replace(' ', '_')
+        file_name = file_name.replace('/', '_')
+        file_name = file_name.replace(':', '_')
+        file_name = file_name.replace('-', '_')
+        file_name = file_name.replace('*', 'anonymous')
+        file_path = path + file_name
+
+        # cv2.imwrite(file_path, imageData)
+        Image.fromarray(imageData).save(file_path)
         return file_path
