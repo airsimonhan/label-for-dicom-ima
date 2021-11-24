@@ -2070,11 +2070,13 @@ class MainWindow(QtWidgets.QMainWindow):
             self.tr("%s - Choose Json File") % __appname__,
             self.singe_path,
             filters,
-
         )
-        self.singe_path = osp.dirname(filename[0][0])
-        for file in filename[0]:
-            json_to_dataset.main(file)
+        try:
+            self.singe_path = osp.dirname(filename[0][0])
+            for file in filename[0]:
+                json_to_dataset.main(file)
+        except:
+            pass
 
     @property
     def imageList(self):
