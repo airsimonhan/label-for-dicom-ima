@@ -83,7 +83,7 @@
     <message>
         <location filename="../app.py" line="190"/>
         <source>&amp;Next Image</source>
-        <translation>下一幅(&amp;N)</translation>
+        <translation>下一幅(&amp;D)</translation>
     </message>
     <message>
         <location filename="../app.py" line="190"/>
@@ -93,7 +93,7 @@
     <message>
         <location filename="../app.py" line="198"/>
         <source>&amp;Prev Image</source>
-        <translation>上一幅(&amp;P)</translation>
+        <translation>上一幅(&amp;A)</translation>
     </message>
     <message>
         <location filename="../app.py" line="198"/>

@@ -3,25 +3,21 @@ import shutil
 import yaml
 from labelme.logger import logger
 
-
 here = osp.dirname(osp.abspath(__file__))
 
 
 class ConfigInfo(object):
     @property
     def default_config_file(self):
-        print('test')
         return osp.join(here, "default_config.yaml")
 
     @property
     def translate_dir(self):
-        print('test')
         return osp.join(here, "../translate")
 
     @property
     def icons_dir(self):
         return osp.join(here, "../icons")
-
 
 config_info = ConfigInfo()
 

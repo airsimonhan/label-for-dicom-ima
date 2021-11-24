@@ -6,7 +6,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="85">
+          <list size="102">
             <item index="0" class="java.lang.String" itemvalue="scikit-image" />
             <item index="1" class="java.lang.String" itemvalue="pandas" />
             <item index="2" class="java.lang.String" itemvalue="tqdm" />
@@ -92,6 +92,23 @@
             <item index="82" class="java.lang.String" itemvalue="grpcio" />
             <item index="83" class="java.lang.String" itemvalue="webencodings" />
             <item index="84" class="java.lang.String" itemvalue="google-auth" />
+            <item index="85" class="java.lang.String" itemvalue="tensorboardX" />
+            <item index="86" class="java.lang.String" itemvalue="graphviz" />
+            <item index="87" class="java.lang.String" itemvalue="torchvision" />
+            <item index="88" class="java.lang.String" itemvalue="absl" />
+            <item index="89" class="java.lang.String" itemvalue="pytest" />
+            <item index="90" class="java.lang.String" itemvalue="hydra-colorlog" />
+            <item index="91" class="java.lang.String" itemvalue="pre-commit" />
+            <item index="92" class="java.lang.String" itemvalue="black" />
+            <item index="93" class="java.lang.String" itemvalue="python-dotenv" />
+            <item index="94" class="java.lang.String" itemvalue="rich" />
+            <item index="95" class="java.lang.String" itemvalue="flake8" />
+            <item index="96" class="java.lang.String" itemvalue="hydra-core" />
+            <item index="97" class="java.lang.String" itemvalue="seaborn" />
+            <item index="98" class="java.lang.String" itemvalue="sh" />
+            <item index="99" class="java.lang.String" itemvalue="pudb" />
+            <item index="100" class="java.lang.String" itemvalue="isort" />
+            <item index="101" class="java.lang.String" itemvalue="jupyterlab" />
           </list>
         </value>
       </option>

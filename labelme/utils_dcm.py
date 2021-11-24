@@ -170,6 +170,6 @@ class DicomProcess(object):
         file_name = file_name.replace('*', 'anonymous')
         file_path = path + file_name
 
-        # cv2.imwrite(file_path, imageData)
-        Image.fromarray(imageData).save(file_path)
+        cv2.imwrite(file_path, imageData)
+        # Image.fromarray(imageData).save(file_path)
         return file_path

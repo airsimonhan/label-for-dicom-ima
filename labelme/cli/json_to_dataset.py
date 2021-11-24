@@ -11,7 +11,7 @@ from labelme.logger import logger
 from labelme import utils
 
 
-def main():
+def main(json_file):
     logger.warning(
         "This script is aimed to demonstrate how to convert the "
         "JSON file to a single image dataset."
@@ -27,7 +27,7 @@ def main():
     # args = parser.parse_args()
     #
     # json_file = args.json_file
-    json_file = './2007_000876.json'
+    # json_file = './2007_000876.json'
     out = None
 
     # if args.out is None:
@@ -72,7 +72,7 @@ def main():
         label_names[value] = name
 
     lbl_viz = imgviz.label2rgb(
-        label=lbl, img=imgviz.asgray(img), label_names=label_names, loc="rb"
+        label=lbl, image=imgviz.asgray(img), label_names=label_names, loc="rb"
     )
 
     PIL.Image.fromarray(img).save(osp.join(out_dir, "img.png"))
@@ -87,4 +87,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(json_file=None)

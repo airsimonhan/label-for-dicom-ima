@@ -35,6 +35,8 @@ from labelme.widgets import ZoomWidget
 from labelme.utils_dcm import DicomProcess
 from labelme.utils_ima import ImaProcess
 
+from labelme.cli import json_to_dataset, draw_json, draw_label_png
+
 
 # FIXME
 # - [medium] Set max zoom value to something big enough for FitWidth/Window
@@ -153,9 +155,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fileSearch.textChanged.connect(self.fileSearchChanged)
 
         self.fileListWidget = QtWidgets.QListWidget()
-        self.fileListWidget.itemSelectionChanged.connect(
-            self.fileSelectionChanged
-        )
+        self.fileListWidget.itemSelectionChanged.connect(self.fileSelectionChanged)
         fileListLayout = QtWidgets.QVBoxLayout()
         fileListLayout.setContentsMargins(0, 0, 0, 0)
         fileListLayout.setSpacing(0)
@@ -163,23 +163,20 @@ class MainWindow(QtWidgets.QMainWindow):
         fileListLayout.addWidget(self.fileListWidget)
         self.file_dock = QtWidgets.QDockWidget(self.tr(u"File List"), self)
         self.file_dock.setObjectName(u"Files")
-
         fileListWidget = QtWidgets.QWidget()
         fileListWidget.setLayout(fileListLayout)
         self.file_dock.setWidget(fileListWidget)
 
         self.infoListWidget = QtWidgets.QListWidget()
-
         infoListLayout = QtWidgets.QVBoxLayout()
         infoListLayout.setContentsMargins(0, 0, 0, 0)
         infoListLayout.setSpacing(0)
         infoListLayout.addWidget(self.infoListWidget)
-        self.file_dock = QtWidgets.QDockWidget(self.tr(u"信息列表"), self)
-        self.file_dock.setObjectName(u"Infos")
-
+        self.info_dock = QtWidgets.QDockWidget(self.tr(u"信息列表"), self)
+        self.info_dock.setObjectName(u"Infos")
         infoListWidget = QtWidgets.QWidget()
         infoListWidget.setLayout(infoListLayout)
-        self.file_dock.setWidget(infoListWidget)
+        self.info_dock.setWidget(infoListWidget)
 
         self.zoomWidget = ZoomWidget()
         self.setAcceptDrops(True)
@@ -219,10 +216,11 @@ class MainWindow(QtWidgets.QMainWindow):
             if self._config[dock]["show"] is False:
                 getattr(self, dock).setVisible(False)
 
+        self.addDockWidget(Qt.RightDockWidgetArea, self.file_dock)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.info_dock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.flag_dock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.label_dock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.shape_dock)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.file_dock)
 
         # Actions
         action = functools.partial(utils.newAction, self)
@@ -247,6 +245,13 @@ class MainWindow(QtWidgets.QMainWindow):
             shortcuts["open_dir"],
             "open",
             self.tr(u"Open Dir"),
+        )
+        convert = action(
+            self.tr("转换标签"),
+            self.openjson,
+            shortcuts["open"],
+            'open',
+            self.tr(u"将JSON文件转换为数据集"),
         )
         openNextImg = action(
             self.tr("&Next Image"),
@@ -608,7 +613,7 @@ class MainWindow(QtWidgets.QMainWindow):
             zoomActions=zoomActions,
             openNextImg=openNextImg,
             openPrevImg=openPrevImg,
-            fileMenuActions=(open_, opendir, save, saveAs, close, quit),
+            fileMenuActions=(open_, opendir, convert, save, saveAs, close, quit),
             tool=(),
             # XXX: need to add some actions here to activate the shortcut
             editMenu=(
@@ -689,10 +694,11 @@ class MainWindow(QtWidgets.QMainWindow):
         utils.addActions(
             self.menus.view,
             (
+                self.file_dock.toggleViewAction(),
+                self.info_dock.toggleViewAction(),
                 self.flag_dock.toggleViewAction(),
                 self.label_dock.toggleViewAction(),
                 self.shape_dock.toggleViewAction(),
-                self.file_dock.toggleViewAction(),
                 None,
                 fill_drawing,
                 None,
@@ -727,6 +733,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.actions.tool = (
             open_,
             opendir,
+            convert,
             openNextImg,
             openPrevImg,
             save,
@@ -2046,6 +2053,28 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         ###  todo :多线程改造
         self.importDirImages(targetDirPath)
+
+    def openjson(self, _value=False,):
+        if not self.mayContinue():
+            return
+        if self.singe_path is None:
+            self.singe_path = osp.dirname(str(self.filename)) if self.filename else "."
+        formats = []
+        formats.append('*.JSON')
+        formats.append('*.json')
+        filters = self.tr("Label files (%s)") % " ".join(
+            formats + ["*%s" % LabelFile.suffix]
+        )
+        filename = QtWidgets.QFileDialog.getOpenFileNames(
+            self,
+            self.tr("%s - Choose Json File") % __appname__,
+            self.singe_path,
+            filters,
+
+        )
+        self.singe_path = osp.dirname(filename[0][0])
+        for file in filename[0]:
+            json_to_dataset.main(file)
 
     @property
     def imageList(self):
